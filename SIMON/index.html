@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="SIMON — 面向未来汽车拥有场景的嵌入式 AI 助手。张雨馨交互设计作品详情。">
+  <title>SIMON — Zhang Yuxin</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+  <script src="assets/vendor/lenis.min.js" defer></script>
+  <script src="simon.js?v=scene-videos-01-04" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#film">跳到项目正文</a>
+  <header class="site-header" data-theme="dark" aria-label="项目导航">
+    <a class="back-link" href="../网站封面页/projects.html#project-simon"><span aria-hidden="true">←</span><span data-i18n="back">返回</span></a>
+    <a class="project-name" href="#cover">SIMON</a>
+    <a class="profile-link" href="../网站封面页/index.html" aria-label="返回 YUXIN ZHANG 个人网站">YUXIN ZHANG</a>
+    <div class="reading-progress" role="progressbar" aria-label="阅读进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
+  </header>
+  <nav class="chapter-nav" aria-label="项目章节" inert>
+    <a href="#film" data-chapter-link="film"><span class="chapter-dot"></span><span data-i18n="film">SIMON 宣传视频</span></a>
+    <a href="#overview" data-chapter-link="overview"><span class="chapter-dot"></span><span data-i18n="overview">项目简述</span></a>
+    <a href="#process" data-chapter-link="process"><span class="chapter-dot"></span><span data-i18n="process">设计流程</span></a>
+    <a href="#pain" data-chapter-link="pain"><span class="chapter-dot"></span><span data-i18n="pain">痛点发现</span></a>
+    <a href="#mechanism" data-chapter-link="mechanism"><span class="chapter-dot"></span><span data-i18n="mechanism">核心功能</span></a>
+    <a href="#map" data-chapter-link="map"><span class="chapter-dot"></span><span data-i18n="map">System Map</span></a>
+    <a href="#scene-01" data-chapter-link="scenes"><span class="chapter-dot"></span><span data-i18n="scenes">使用场景</span></a>
+    <a href="#features" data-chapter-link="features"><span class="chapter-dot"></span><span data-i18n="features">核心特点</span></a>
+    <a href="#ux" data-chapter-link="ux"><span class="chapter-dot"></span><span data-i18n="ux">UX体验亮点</span></a>
+  </nav>
+  <main>
+    <section class="panel cover" id="cover" data-height="785" aria-label="SIMON 封面">
+      <div class="artboard">
+        <img class="layer cover-art" src="assets/cover-background.png" alt="SIMON 汽车助手应用与汽车合成视觉" width="1440" height="785">
+        <div class="layer cover-title" style="--x:1009;--y:278"><h1>SIMON</h1><p>Car ownership, simplified.</p></div>
+        <div class="layer cover-meta" style="--x:67;--y:718"><span>09/ 2025 - 01/2026</span><span>汽车服务系统用户体验设计</span></div>
+        <a class="cover-arrow" href="#film" aria-label="向下浏览项目"><span aria-hidden="true">↘</span></a>
+      </div>
+    </section>
+
+    <section class="panel film" id="film" data-height="785" data-chapter="film" aria-label="SIMON 宣传视频">
+      <div class="artboard">
+        <video class="layer film-media" style="--x:274;--y:120;--w:990;--h:554" controls playsinline preload="metadata" poster="assets/figma/4083-2555.png" aria-label="SIMON 宣传视频"><source src="https://media.yuxin4965.xyz/SIMON/assets/videos/simon-film.m4v" type="video/mp4">你的浏览器不支持此视频播放。</video>
+        <p class="layer film-acronym" style="--x:468;--y:708"><span><strong>S</strong>mart</span> <span>Integrated</span> <span>Monitoring</span> <span>Ownership</span> <span>Network</span></p>
+      </div>
+    </section>
+
+    <section class="panel overview" id="overview" data-height="785" data-chapter="overview" aria-label="项目简述">
+      <div class="artboard">
+        <div class="layer copy" style="--x:208;--y:206;--w:394"><h2>项目简介</h2><p>SIMON 是一款面向未来汽车拥有场景的嵌入式 AI 助手。它整合车辆状态、维护与故障信息、保险及行政事务，并提供清晰的行动建议与完整用车记录，帮助用户更简单地理解、管理和维护自己的车辆。</p></div>
+        <p class="layer overview-lead" style="--x:208;--y:410;--w:136">SIMON 围绕以下<strong>4 大核心领域</strong>，提供贯穿整个汽车拥有周期的支持</p>
+        <ol class="layer overview-list" style="--x:391;--y:410;--w:216"><li><b>01</b><span>车辆故障问题</span></li><li><b>03</b><span>保险、法律与行政事务</span></li><li><b>02</b><span>维护与机械保养</span></li><li><b>04</b><span>信息理解与使用障碍</span></li></ol>
+        <img class="layer overview-visual" style="--x:730;--y:206;--w:533;--h:372" src="assets/images/simon-overview.png" alt="SIMON 手机与车载服务界面组合" loading="lazy">
+      </div>
+    </section>
+
+    <section class="panel process" id="process" data-height="785" data-chapter="process" aria-label="设计流程">
+      <div class="artboard">
+        <div class="layer copy wide" style="--x:208;--y:126;--w:1055"><h2>设计流程</h2><p>本项目采用“策略研究 + 设计思考”的流程推进：通过案头研究、竞品分析与用户访谈提炼关键洞察，进而明确问题定义与概念方向；在此基础上，发展交互流程与跨设备原型（移动端与车载/CarPlay），并构建最小可行产品（MVP）。最终，通过基于情境的用户测试（思维大声表达法 + SUS量表）进行验证，并不断迭代完善形成最终方案。</p></div>
+        <img class="layer" style="--x:208;--y:295;--w:1055;--h:359" src="assets/images/simon-design-process.png" alt="从问题发现、概念探索、设计验证到最终方案的设计流程图" loading="lazy">
+      </div>
+    </section>
+
+    <section class="panel pain" id="pain" data-height="1025" data-chapter="pain" aria-label="痛点发现">
+      <div class="artboard">
+        <h2 class="layer section-label" style="--x:208;--y:123">痛点发现</h2>
+        <div class="layer pain-left" style="--x:208;--y:207;--w:348"><h3>从分散的单点<br>式用车支持</h3><p>现有的用车支持体系仍处于碎片化且不完整的状态。市场分析表明，现有解决方案主要集中在<strong>2种典型但不足的路径：</strong></p></div>
+        <div class="layer pain-right" style="--x:760;--y:207;--w:503"><article><span class="number">01</span><h4>OEM 应用：只有数据，缺乏引导</h4><p>虽然可以获取实时车辆数据，但大多以仪表盘形式呈现。它们只告诉用户“发生了什么”，却没有回答“接下来该做什么”。</p></article><article><span class="number">02</span><h4>碎片化工具：缺乏连续性的支持</h4><p>各类专业化应用和服务能够解决单一问题，但彼此割裂，导致使用过程中的摩擦、不确定性，以及较高的认知负担。</p></article></div>
+        <div class="layer pain-shift" style="--x:208;--y:716;--w:347"><h3>转向全方位的<br>服务支持</h3><p>这一鸿沟定义了 SIMON 的使命：</p></div>
+        <div class="layer mission" style="--x:759;--y:716;--w:503"><h4>SIMON MISSION</h4><p>通过将碎片化的数据与服务转化为<strong>清晰、连续且以人为本的用车支持，从而增强车主与车辆之间的连接。</strong></p></div>
+        <svg class="layer pain-line" style="--x:371;--y:445;--w:12;--h:249" viewBox="0 0 12 249" aria-hidden="true" focusable="false"><path d="M6 0 V236" fill="none" stroke="#aab0b1" stroke-width="1" stroke-dasharray="4 5"/><path d="M6 236 V248 M1 243 L6 248 L11 243" fill="none" stroke="#aab0b1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </section>
+
+    <section class="panel mechanism" id="mechanism" data-height="785" data-chapter="mechanism" aria-label="核心功能">
+      <div class="artboard">
+        <h2 class="layer section-label" style="--x:207;--y:96">SIMON运作机制</h2>
+        <img class="layer mechanism-visual" style="--x:208;--y:180;--w:1054;--h:517" src="assets/images/simon-mechanism.png" alt="车辆状态、服务生态、文档管理与信息转化的产品界面" loading="lazy">
+        <div class="layer mechanism-text m1" style="--x:239;--y:238;--w:188"><h3>感知车辆状态</h3><p>接入车辆传感器，实现实时诊断与状态监测</p></div>
+        <div class="layer mechanism-text m2" style="--x:1043;--y:238;--w:188"><h3>连接服务生态</h3><p>无缝对接维修点、保险及紧急救援等服务</p></div>
+        <div class="layer mechanism-text m3" style="--x:239;--y:556;--w:188"><h3>管理关键信息</h3><p>集中处理预约、文档与提醒等事务</p></div>
+        <div class="layer mechanism-text m4" style="--x:1043;--y:556;--w:188"><h3>精准转化复杂信息</h3><p>将复杂的数据转化为清晰、可执行的行动建议</p></div>
+      </div>
+    </section>
+
+    <section class="panel map" id="map" data-height="876" data-chapter="map" aria-label="System Map">
+      <div class="artboard">
+        <div class="layer copy map-heading" style="--x:208;--y:114;--w:597"><h2>SIMON服务系统生态地图</h2><p>SIMON 是一个互联的汽车服务生态系统，整合车辆数据、服务合作伙伴与多端触点，在完整的用车旅程中持续为用户提供清晰、可执行的下一步行动支持。</p></div>
+        <div class="layer map-notes" style="--x:208;--y:285;--w:180"><article><h3>SIMON核心能力</h3><p>连接保险、维修、汽车制造商、经销商和行政机构，为不同用车问题匹配对应服务</p></article><article><h3>整体服务生态</h3><p>整合车辆信息与服务资源，完成状态解读、行动建议、记录管理与问题处理</p></article><article><h3>多端交互</h3><p>结合车辆数据与用户行为，通过手机、CarPlay 和车机持续提供信息与操作支持。</p></article></div>
+        <img class="layer" style="--x:436;--y:287;--w:827;--h:475" src="assets/images/simon-system-map.png" alt="SIMON 服务系统生态图：合作伙伴、用车支持层、车辆数据与多端触点" loading="lazy">
+      </div>
+    </section>
+
+    <section class="panel scene scene-one" id="scene-01" data-height="1028" data-chapter="scenes" aria-label="使用场景一：经销商处">
+      <div class="artboard">
+        <div class="layer copy scene-intro" style="--x:208;--y:134;--w:597"><h2>关键使用场景</h2><p>SIMON 是一个互联的汽车服务生态系统，整合车辆数据、服务合作伙伴与多端触点，在完整的用车旅程中持续为用户提供清晰、可执行的下一步行动支持。</p></div>
+        <h3 class="layer scene-title" style="--x:208;--y:321"><span>01</span> 经销商处（数字化入门）</h3>
+        <img class="layer" style="--x:208;--y:419;--w:296;--h:483" src="assets/images/simon-scene-01.png" alt="经销商通过车钥匙或配置码帮助用户建立账号，用户在 SIMON 中注册并扫描车辆二维码" loading="lazy">
+        <div class="layer demo-slot" style="--x:611;--y:419;--w:652;--h:483" data-video-slot="scene-01" data-poster="assets/figma/3604-11310.png"><img src="assets/figma/3604-11310.png" alt="场景一演示占位：SIMON 应用出现在手机主屏幕" loading="lazy"></div>
+      </div>
+    </section>
+
+    <section class="panel scene scene-two" id="scene-02" data-height="1570" data-chapter="scenes" aria-label="使用场景二：车内情景">
+      <div class="artboard">
+        <h3 class="layer scene-title" style="--x:208;--y:126"><span>02</span> 车内情景（紧急辅助）</h3>
+        <h4 class="layer scene-subhead" style="--x:208;--y:224">Carplay端</h4>
+        <img class="layer" style="--x:208;--y:281;--w:1055;--h:553" src="assets/images/simon-scene-02.png" alt="车内玻璃水提前预警与突发问题提醒，以及 App 端的补充教程、传感器反馈和解决确认" loading="lazy">
+        <div class="layer demo-slot" style="--x:208;--y:854;--w:1055;--h:546" data-video-slot="scene-02" data-poster="assets/figma/3610-5107.png"><img src="assets/figma/3610-5107.png" alt="场景二演示占位：SIMON 应用启动" loading="lazy"></div>
+      </div>
+    </section>
+
+    <section class="panel scene scene-three" id="scene-03" data-height="1307" data-chapter="scenes" aria-label="使用场景三：居家情景">
+      <div class="artboard">
+        <h3 class="layer scene-title" style="--x:208;--y:126"><span>03</span> 居家情景（主动管理）</h3>
+        <img class="layer" style="--x:208;--y:224;--w:1055;--h:397" src="assets/images/simon-scene-03.png" alt="居家场景中的维修预约流程与车辆基础问题检测界面" loading="lazy">
+        <div class="layer demo-slot" style="--x:208;--y:658;--w:1055;--h:543" data-video-slot="scene-03" data-poster="assets/figma/3585-4010.png"><img src="assets/figma/3585-4010.png" alt="场景三演示占位：SIMON 应用启动" loading="lazy"></div>
+      </div>
+    </section>
+
+    <section class="panel scene scene-four" id="scene-04" data-height="1652" data-chapter="scenes" aria-label="使用场景四：汽车维修点">
+      <div class="artboard">
+        <h3 class="layer scene-title" style="--x:205;--y:126"><span>04</span> 汽车维修点（便捷与透明）</h3>
+        <img class="layer" style="--x:205;--y:208;--w:1058;--h:709" src="assets/images/simon-scene-04.png" alt="用户、维修技师、维修工具与 B 端平台协作的服务流程及 SIMON 应用界面" loading="lazy">
+        <div class="layer demo-slot" style="--x:208;--y:954;--w:1055;--h:543" data-video-slot="scene-04" data-poster="assets/figma/3585-6124.png"><img src="assets/figma/3585-6124.png" alt="场景四演示占位：SIMON 应用启动" loading="lazy"></div>
+      </div>
+    </section>
+
+    <section class="panel home-highlight" id="home-highlight" data-height="785" data-chapter="features" aria-label="首页设计">
+      <div class="artboard">
+        <img class="layer" style="--x:296;--y:123;--w:277;--h:564" src="assets/images/simon-homepage.png" alt="SIMON 首页展示车辆实时状态和下一个服务提醒" loading="lazy">
+        <div class="layer home-copy" style="--x:727;--y:252;--w:471"><h2>Home Page</h2><h3>从实时车况到下一步行动指引</h3><p>首页以车辆为核心建立清晰的信息层级，将实时车况、异常状态与近期服务按优先级集中呈现，并通过卡片化与渐进式信息展开降低认知负担。SIMON 作为轻量入口嵌入其中，在不打断浏览的前提下衔接后续解释与行动。</p></div>
+      </div>
+    </section>
+
+    <section class="panel features" id="features" data-height="1874" data-chapter="features" aria-label="核心特点">
+      <div class="artboard">
+        <h2 class="layer section-label" style="--x:252;--y:145">核心特点</h2>
+        <div class="layer feature-copy" style="--x:252;--y:269;--w:373"><span class="number">01</span><h3>分步操作指导</h3><p>通过分步说明与视频引导，将不确定性转化为清晰可执行的行动。并支持及时针对具体问题询问SIMON获取具体信息。</p></div>
+        <img class="layer feature-image" style="--x:747;--y:182;--w:516;--h:370;--feature-position:0%" src="assets/images/simon-core-features.png" alt="SIMON 分步操作指导界面" loading="lazy">
+        <div class="layer feature-copy" style="--x:252;--y:671;--w:373"><span class="number">02</span><h3>实时车辆状态检测</h3><p>App端与车辆传感器互联实现数据相互传输。将车辆实时信号转化为易于理解的状态信息与预警提示，及时排查基础故障。</p></div>
+        <img class="layer feature-image" style="--x:747;--y:584;--w:516;--h:370;--feature-position:33.333%" src="assets/images/simon-core-features.png" alt="SIMON 实时车辆状态检测界面" loading="lazy">
+        <div class="layer feature-copy" style="--x:252;--y:1073;--w:373"><span class="number">03</span><h3>嵌入式SIMON助手</h3><p>基于车辆状态与使用的情境，SIMON 将提示嵌入关键交互节点，以适配场景的形式提供解释与行动引导。</p></div>
+        <img class="layer feature-image" style="--x:747;--y:986;--w:517;--h:370;--feature-position:66.667%" src="assets/images/simon-core-features.png" alt="嵌入式 SIMON 助手与预约提醒界面" loading="lazy">
+        <div class="layer feature-copy" style="--x:252;--y:1475;--w:373"><span class="number">04</span><h3>文档中心集中管理文件</h3><p>集中管理车辆相关文件与服务记录，并支持个人主动上传，便于快速查阅与合规管理。</p></div>
+        <img class="layer feature-image" style="--x:748;--y:1388;--w:516;--h:370;--feature-position:100%" src="assets/images/simon-core-features.png" alt="SIMON 文档中心界面" loading="lazy">
+      </div>
+    </section>
+
+    <section class="panel ux" id="ux" data-height="1775" data-chapter="ux" aria-label="UX体验亮点">
+      <div class="artboard">
+        <h2 class="layer section-label" style="--x:208;--y:108">用户体验亮点</h2>
+        <img class="layer ux-visual" style="--x:208;--y:201;--w:1055;--h:1258" src="assets/images/simon-ux-highlights.png" alt="车辆状态、预约提醒、行动建议、服务进度及紧急入口的 SIMON 界面展示" loading="lazy">
+        <div class="layer ux-row ux-first" style="--x:208;--y:201;--w:1055;--h:376"><div class="ux-copy"><span class="number ux-sf-number">01</span><h3>关键信息优先呈现</h3><p>车辆异常、服务预约与关键事项按优先级集中呈现，并通过清晰的信息层级强化视觉焦点，帮助用户快速识别当前最需要关注的内容。</p></div><div class="ux-art"><img src="assets/images/simon-ux-highlights.png" alt="车辆关键信息与下一次服务提醒界面" loading="lazy"></div></div>
+        <div class="layer ux-row ux-second" style="--x:208;--y:737;--w:1055;--h:334"><div class="ux-copy"><span class="number ux-sf-number">02</span><h3>可执行的操作指引</h3><p>SIMON 根据不同情境以适合的形式嵌入流程，在术语解释、异常提醒与关键决策节点提供即时说明与明确的下一步行动建议。</p></div><div class="ux-art"><img src="assets/images/simon-ux-highlights.png" alt="即时解释、问题处理与维修预约界面" loading="lazy"></div></div>
+        <div class="layer ux-trio" style="--x:208;--y:1231;--w:1055;--h:427"><div class="ux-trio-art"><img src="assets/images/simon-ux-highlights.png" alt="首页状态、服务进度与紧急入口界面" loading="lazy"></div><div class="ux-trio-copy"><article><span class="number ux-sf-number">03</span><h3>车辆系统状态可见</h3><p>核心车辆部件状态持续呈现在首页，并通过差异化颜色反馈状态变化，使异常与风险能够被快速识别。</p></article><article><span class="number ux-sf-number">04</span><h3>流程清晰可控</h3><p>维修、预约与检修等服务过程以时间线呈现，明确当前进度、关键节点与后续步骤，让整个流程持续可追踪。</p></article><article><span class="number">05</span><h3>安全入口常驻易达</h3><p>SOS 与关键安全信息保持高可见、易触达的常驻入口，并集中覆盖必要的应急信息与操作，确保紧急情况下能够快速响应。</p></article></div></div>
+      </div>
+    </section>
+
+    <section class="panel closing-visual" id="closing" data-height="785" aria-label="SIMON 项目结尾视觉"><div class="artboard"><img class="layer" style="--x:206;--y:0;--w:1057;--h:785" src="assets/images/simon-closing-showcase.png" alt="SIMON 户外汽车广告与关键应用界面展示" loading="lazy"></div></section>
+    <section class="panel closing-mark" data-height="785" aria-label="SIMON 品牌结束画面"><div class="artboard"><img class="layer" style="--x:206;--y:0;--w:1057;--h:785" src="assets/images/simon-closing-final.png" alt="模糊汽车背景中央的 SIMON 品牌标志" loading="lazy"></div></section>
+    <nav class="project-pagination" id="project-pagination" aria-label="相邻项目">
+      <a class="project-switch previous" href="../Endurance/index.html" aria-label="上一个项目 ENDURANCE"><span class="round-arrow" aria-hidden="true">←</span><span class="project-thumb"><img class="thumb-image" src="assets/images/simon-project-previous.png" alt="ENDURANCE" loading="lazy"><span class="thumb-label"><span class="thumb-direction" data-i18n="previous">上一个项目</span><span class="thumb-project-name">ENDURANCE</span></span></span></a>
+      <a class="project-switch next" href="../Smart%20TV/index.html" aria-label="下一个项目 AURION TV"><span class="project-thumb"><img class="thumb-image" src="assets/images/simon-project-next.png" alt="AURION TV" loading="lazy"><span class="thumb-label"><span class="thumb-direction" data-i18n="next">下一个项目</span><span class="thumb-project-name">AURION TV</span></span></span><span class="round-arrow" aria-hidden="true">→</span></a>
+      <footer class="project-footer"><span>ZHANG YUXIN © 2026</span><a href="#cover" data-i18n="top">返回顶部 ↑</a></footer>
+    </nav>
+  </main>
+  <div class="page-exit" aria-hidden="true"></div>
+</body>
+</html>
