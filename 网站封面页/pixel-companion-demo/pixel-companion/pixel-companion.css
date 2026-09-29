@@ -1,0 +1,46 @@
+.pixel-companion {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  z-index: 2147483000;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  contain: layout style paint;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  transition: opacity 150ms ease;
+  will-change: transform, opacity;
+}
+
+.pixel-companion.is-visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.pixel-companion.is-visible.is-over-interactive {
+  opacity: 0;
+}
+
+.pixel-companion__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.pixel-companion__image[hidden] {
+  display: none;
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .pixel-companion {
+    display: none !important;
+  }
+}

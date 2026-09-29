@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="description" content="张雨馨的项目目录。" />
+    <title>项目 — Zhang Yuxin</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23050505'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%23ff5b2e'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="styles.css?v=20260928-return-preview-2" />
+    <link rel="stylesheet" href="pixel-companion-demo/pixel-companion/pixel-companion.css?v=20260812-4" />
+  </head>
+  <body class="projects-page">
+    <a class="skip-link" href="#work">跳到项目目录</a>
+
+    <header class="site-header" data-theme="light" aria-label="主导航">
+      <a class="brand" href="index.html" aria-label="返回首页">YUXIN</a>
+      <nav class="main-nav" aria-label="主要导航">
+        <a href="index.html">首页</a>
+        <a href="projects.html" aria-current="page" data-i18n="navWork">项目</a>
+        <a href="about.html" data-i18n="navAbout">关于</a>
+        <a class="contact-nav-link" href="contact.html" data-i18n="navContact">联系</a>
+      </nav>
+      <a class="gallery-nav-link" href="../摄影集/index.html" aria-label="打开摄影集">
+        <span class="gallery-nav-label" aria-hidden="true">摄影集</span>
+        <img src="assets/gallery-nav-icon.svg" alt="" width="20" height="20" />
+      </a>
+    </header>
+
+    <main>
+      <section class="work-section work-section--page" id="work" data-header-theme="light" aria-labelledby="work-title">
+        <h1 class="sr-only" id="work-title">项目目录</h1>
+        <div class="project-filter" role="group" aria-label="筛选项目">
+          <button class="filter-button active" type="button" data-filter="all" aria-pressed="true" data-i18n="filterAll">全部</button>
+          <button class="filter-button" type="button" data-filter="software" aria-pressed="false" data-i18n="filterSoftware">软件产品</button>
+          <button class="filter-button" type="button" data-filter="hardware" aria-pressed="false" data-i18n="filterHardware">硬件产品</button>
+          <button class="filter-button" type="button" data-filter="hybrid" aria-pressed="false" data-i18n="filterHybrid">软硬交互产品</button>
+        </div>
+
+        <div class="project-grid" data-layout="all" aria-live="polite">
+          <a class="project-card" id="project-simon" data-category="software" href="../SIMON/index.html" aria-label="查看 SIMON 项目详情">
+            <img class="project-image project-image--all" src="assets/project-simon-composite.png" alt="SIMON 汽车服务系统项目" />
+            <img class="project-image project-image--filtered" src="assets/project-simon-tall.png" alt="" aria-hidden="true" />
+            <div class="project-overlay"><h2>SIMON</h2><p>汽车服务系统用户体验设计</p><time>2026</time></div>
+          </a>
+          <a class="project-card" id="project-aurion" data-category="software" href="../Smart%20TV/index.html" aria-label="查看 AURION Smart TV 项目详情">
+            <img class="project-image project-image--all" src="assets/project-aurion.png" alt="AURION TV 智能电视体验项目" />
+            <img class="project-image project-image--filtered" src="assets/project-aurion-tall.png" alt="" aria-hidden="true" />
+            <div class="project-overlay"><h2>AURION TV</h2><p>智能电视系统用户体验设计 · UX</p><time>2025</time></div>
+          </a>
+          <a class="project-card" id="project-piotti" data-category="software" href="../Piotti/index.html" aria-label="查看 PIOTTI 项目详情">
+            <img class="project-image project-image--all" src="assets/project-piotti.png" alt="PIOTTI 无障碍体验项目" />
+            <img class="project-image project-image--filtered" src="assets/project-piotti-tall.png" alt="" aria-hidden="true" />
+            <div class="project-overlay"><h2>PIOTTI</h2><p>无障碍体验设计 · UI/UX</p><time>2025</time></div>
+          </a>
+          <a class="project-card" id="project-polso" data-category="hardware" href="../polso/index.html" aria-label="查看 POLSO 项目详情">
+            <img class="project-image project-image--all crop-bottom-strip" src="assets/project-polso.png" alt="POLSO 办公电子产品" />
+            <img class="project-image project-image--filtered" src="assets/project-polso-wide.png" alt="" aria-hidden="true" />
+            <div class="project-overlay"><h2>POLSO</h2><p>办公电子产品设计</p><time>2024</time></div>
+          </a>
+          <a class="project-card" id="project-battlelight" data-category="hybrid" href="../BattleLight/index.html" aria-label="查看 BATTLELIGHT 项目详情">
+            <img class="project-image project-image--all crop-bottom-strip" src="assets/project-battlelight.png" alt="BATTLELIGHT 软硬件交互项目" />
+            <img class="project-image project-image--filtered" src="assets/project-battlelight-wide.png" alt="" aria-hidden="true" />
+            <div class="project-overlay"><h2>BATTLELIGHT</h2><p>实体交互 · 软硬件原型 · Arduino</p><time>2025</time></div>
+          </a>
+          <a class="project-card" id="project-endurance" data-category="hardware" href="../Endurance/index.html" aria-label="查看 ENDURANCE 项目详情">
+            <img class="project-image project-image--all" src="assets/project-endurance-composite.png" alt="ENDURANCE 医疗硬件产品" />
+            <img class="project-image project-image--filtered project-image--endurance" src="assets/project-endurance-wide.png" alt="" aria-hidden="true" />
+            <div class="project-overlay"><h2>ENDURANCE</h2><p>医疗硬件产品设计 · UX</p><time>2023</time></div>
+          </a>
+        </div>
+        <footer class="page-footer projects-page__footer">
+          <span>ZHANG YUXIN © 2026</span>
+          <span>SELECTED WORKS</span>
+        </footer>
+      </section>
+    </main>
+
+    <script src="script.js?v=20260928-return-preview-3"></script>
+    <script src="pixel-companion-demo/pixel-companion/pixel-companion.js?v=20260812-4"></script>
+  </body>
+</html>
