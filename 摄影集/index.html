@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#050505" />
+    <meta name="description" content="张雨馨的摄影集：旅途、风景与日常影像。" />
+    <title>影集 — Zhang Yuxin</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23050505'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%23ff5b2e'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="site-shared.css?v=20260928-nav-layout-5" />
+    <link rel="stylesheet" href="photography.css?v=9" />
+    <script defer src="photos.js?v=3"></script>
+    <script defer src="photography.js?v=4"></script>
+  </head>
+  <body class="photography-page">
+    <a class="skip-link" href="#photographs">跳到照片</a>
+    <header class="site-header" data-theme="dark" aria-label="主导航">
+      <a class="brand" href="../网站封面页/index.html" aria-label="返回首页">YUXIN</a>
+      <nav class="main-nav" aria-label="主要导航">
+        <a href="../网站封面页/index.html">首页</a>
+        <a href="../网站封面页/projects.html" data-label="navWork">项目</a>
+        <a href="../网站封面页/about.html" data-label="navAbout">关于</a>
+        <a class="contact-nav-link" href="../网站封面页/contact.html" data-label="navContact">联系</a>
+      </nav>
+      <a class="gallery-nav-link" href="index.html" aria-current="page" aria-label="摄影集">
+        <span class="gallery-nav-label" aria-hidden="true">摄影集</span>
+        <img src="assets/gallery-nav-icon.svg" alt="" width="20" height="20" />
+      </a>
+    </header>
+    <main id="photographs" class="photo-stage" tabindex="-1" aria-label="摄影作品">
+      <h1 class="sr-only">Zhang Yuxin · Photography Collection</h1>
+      <p class="sr-only" id="gallery-help">鼠标划过照片展开查看；手机可点按或横向滑动。键盘左右方向键切换，Escape 收起。</p>
+      <div class="photo-track" role="group" aria-describedby="gallery-help" aria-label="照片列表"></div>
+      <p class="gallery-status sr-only" aria-live="polite" aria-atomic="true"></p>
+    </main>
+    <footer class="photography-footer">
+      <span>ZHANG YUXIN © 2026</span>
+      <span>PHOTOGRAPHY COLLECTION</span>
+    </footer>
+    <div class="photo-loader" role="status" aria-label="正在准备摄影集">
+      <span class="photo-loader__track"><span class="photo-loader__progress"></span></span>
+    </div>
+    <noscript><p class="no-script">请启用 JavaScript 以浏览交互摄影集。<a href="../网站封面页/index.html">返回首页</a></p></noscript>
+  </body>
+</html>

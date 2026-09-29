@@ -1,0 +1,215 @@
+/* Match the reference site's 80px top/bottom space and fixed-width slivers. */
+.photography-page {
+  --collection-bg: #050505;
+  --band-top: 80px;
+  --band-height: calc(100dvh - 160px);
+  --strip-width: 8px;
+  --expanded-width: 42.5vw;
+  --photo-inset: 2.35vw;
+  --caption-color: #858585;
+  --caption-size: 10px;
+  background: var(--collection-bg);
+  overflow: hidden;
+  min-height: 100dvh;
+}
+.photography-page .site-header {
+  background: rgba(255, 255, 255, .02);
+  border-bottom: 0;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+.photography-page .main-nav {
+  align-items: center;
+  gap: 50px;
+  font-size: 13px;
+  line-height: 18px;
+}
+.photography-page .main-nav a { flex: none; }
+.photography-page .gallery-nav-link {
+  position: relative;
+  justify-self: end;
+  display: flex;
+  width: 20px;
+  height: 20.0204px;
+  align-items: center;
+  transform: translateY(1.5px);
+}
+.photography-page .gallery-nav-link::after { display: none; }
+.photography-page .gallery-nav-link img {
+  width: 20px;
+  height: 20.0204px;
+  max-width: none;
+  transition: opacity .2s ease;
+}
+.photography-page .gallery-nav-label {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 10px);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(8px, -50%);
+  transition: opacity .2s ease, transform .36s cubic-bezier(.22, 1, .36, 1);
+}
+.photography-page .gallery-nav-link:hover .gallery-nav-label,
+.photography-page .gallery-nav-link:focus-visible .gallery-nav-label {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+.photography-page .gallery-nav-link:hover img,
+.photography-page .gallery-nav-link:focus-visible img {
+  opacity: .72;
+}
+.photo-stage {
+  position: fixed;
+  top: var(--band-top);
+  width: 100%;
+  height: var(--band-height);
+  outline: none;
+  overflow: hidden;
+}
+.photo-track {
+  position: relative;
+  left: 50%;
+  display: flex;
+  width: max-content;
+  height: 100%;
+  transform: translateX(calc(-50% + var(--track-shift, 0px)));
+  align-items: stretch;
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.photo-strip,
+.photo-decoration {
+  position: relative;
+  flex: 0 0 var(--strip-width);
+  width: var(--strip-width);
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: var(--collection-bg);
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  contain: layout paint;
+}
+.photo-decoration { cursor: default; }
+.photo-strip.is-active { flex: 0 0 var(--expanded-width); cursor: default; }
+.photo-strip:focus-visible { box-shadow: inset 0 0 0 1px #aaa; }
+.photo-strip__sliver {
+  display: block;
+  height: 100%;
+  width: 100%;
+  max-width: none;
+  object-fit: cover;
+  image-rendering: auto;
+  pointer-events: none;
+}
+.photo-strip.is-active .photo-strip__sliver { visibility: hidden; }
+.photo-detail {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--image-width);
+  height: var(--image-height);
+  transform: translate(-50%, -50%);
+  margin: 0;
+  pointer-events: none;
+}
+.photo-strip.is-active .photo-detail { display: block; }
+.photo-detail__image { width: 100%; height: 100%; object-fit: contain; }
+.photo-strip.is-loading .photo-detail::after,
+.photo-strip.is-error .photo-detail::after {
+  content: '加载中…';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  color: var(--caption-color);
+  font-size: var(--caption-size);
+  text-align: center;
+}
+.photo-strip.is-error .photo-detail::after { content: '加载失败，请移开后重试'; }
+html[lang="en"] .photo-strip.is-loading .photo-detail::after { content: 'Loading…'; }
+html[lang="en"] .photo-strip.is-error .photo-detail::after { content: 'Could not load. Move away to retry.'; }
+.photo-caption {
+  position: absolute;
+  top: calc(100% + 15px);
+  left: 0;
+  width: 100%;
+  color: var(--caption-color);
+  font-size: var(--caption-size);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: .025em;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(3px);
+}
+.photo-caption span { display: block; overflow-wrap: anywhere; }
+.photo-strip.is-active.is-loaded .photo-caption {
+  opacity: 1;
+  transform: none;
+  transition: opacity 250ms 150ms, transform 250ms 150ms;
+}
+.photography-footer {
+  position: fixed;
+  bottom: 30px;
+  left: var(--page-x);
+  right: var(--page-x);
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: #777;
+  font-size: 10px;
+  line-height: 1.5;
+  letter-spacing: .07em;
+}
+.photo-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  background: var(--collection-bg);
+  transition: opacity 300ms;
+}
+.photo-loader.is-done { opacity: 0; pointer-events: none; }
+.photo-loader__track { width: 90px; height: 1px; background: #292929; }
+.photo-loader__progress { display: block; width: 100%; height: 100%; background: #b4b4b4; transform: scaleX(0); transform-origin: left; transition: transform 180ms linear; }
+.no-script { position: fixed; inset: 45% 20px auto; z-index: 150; text-align: center; background: #050505; }
+@media (max-width: 767px) {
+  .photography-page {
+    --strip-width: 4px;
+    --expanded-width: 76vw;
+    --photo-inset: 14px;
+    --caption-size: 10px;
+  }
+  .photo-stage { width: 90%; left: 5%; }
+  .photography-footer { bottom: max(30px, env(safe-area-inset-bottom)); font-size: 9px; letter-spacing: .04em; gap: 12px; }
+  .photo-caption { top: calc(100% + 12px); }
+  .photography-page .main-nav { gap: 18px; font-size: 12px; }
+}
+@media (max-height: 550px) and (min-width: 768px) {
+  .photography-footer { bottom: 5px; }
+}
+@media (max-height: 500px) and (max-width: 767px) {
+  .photography-page { --expanded-width: 54vw; }
+  .photography-footer { bottom: 2px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .photo-caption,
+  .photo-loader,
+  .photography-page .gallery-nav-label,
+  .photography-page .gallery-nav-link img { transition: none !important; }
+}
