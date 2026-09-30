@@ -235,6 +235,7 @@ filterButtons.forEach((button) => {
   button.addEventListener('focus', warmFilterImages, { once: true });
   button.addEventListener('click', async () => {
     const request = ++imageRequestRun;
+    document.dispatchEvent(new Event('projects:filter-start'));
     ++projectFilterRun;
     projectCards.forEach(cancelProjectCardAnimation);
     updateProjectFilterButtons(projectGrid.dataset.layout);
@@ -285,7 +286,7 @@ if (projectGrid) {
     loadFilterImages(saved.filter);
   }
   resetReturnedCardState();
-  document.documentElement.dataset.motion = 'ready';
+  if (!document.body.classList.contains('projects-page')) document.documentElement.dataset.motion = 'ready';
 }
 
 const translations = {
