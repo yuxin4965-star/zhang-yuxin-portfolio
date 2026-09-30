@@ -1,28 +1,31 @@
 /* Match the cover/about easing without competing with card filter transforms. */
+html[data-motion="return-pending"] .projects-page .project-grid {
+  visibility: hidden;
+}
 html[data-motion="pending"] .projects-page .site-header,
 html[data-motion="pending"] .projects-page .project-filter,
 html[data-motion="pending"] .projects-page .projects-page__footer {
   visibility: hidden;
 }
-.projects-motion-enabled .site-header {
+.projects-motion-enabled:not(.projects-motion-images-only) .site-header {
   animation: projects-copy-in .75s cubic-bezier(.16, 1, .3, 1) 80ms both;
 }
-.projects-motion-enabled .filter-button {
+.projects-motion-enabled:not(.projects-motion-images-only) .filter-button {
   animation: projects-copy-in .85s cubic-bezier(.16, 1, .3, 1) both;
   animation-delay: var(--project-motion-delay, 180ms);
 }
-.projects-motion-enabled .projects-page__footer > span {
+.projects-motion-enabled:not(.projects-motion-images-only) .projects-page__footer > span {
   animation: projects-copy-in .75s cubic-bezier(.16, 1, .3, 1) both;
   animation-delay: var(--project-motion-delay, 680ms);
 }
 .projects-motion-enabled .project-card {
   background: transparent;
 }
-.projects-motion-enabled .project-card > .project-image--all {
+.projects-motion-enabled .project-card > .project-image {
   visibility: hidden;
   opacity: 1;
 }
-.projects-motion-enabled .project-card > .project-image--all.is-project-image-ready {
+.projects-motion-enabled .project-card > .project-image.is-project-image-ready {
   visibility: visible;
 }
 /* Keep decoded pixels static. Animate a separate cover, not the image's
@@ -53,7 +56,7 @@ html[data-motion="pending"] .projects-page .projects-page__footer {
   .projects-motion-enabled .site-header,
   .projects-motion-enabled .filter-button,
   .projects-motion-enabled .projects-page__footer > span,
-  .projects-motion-enabled .project-card > .project-image--all {
+  .projects-motion-enabled .project-card > .project-image {
     animation: none !important;
     opacity: 1;
     transform: none;

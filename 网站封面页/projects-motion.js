@@ -6,12 +6,13 @@
 
   function finishEntrance() {
     active = false;
-    page.classList.remove('projects-motion-enabled');
+    page.classList.remove('projects-motion-enabled', 'projects-motion-images-only');
     root.dataset.motion = 'ready';
   }
 
-  // A restored page must never be hidden again, including explicit detail returns.
-  if (root.dataset.motion !== 'pending' || reducedMotion.matches) {
+  // Detail back links reveal images only. History-cache restores stay immediate.
+  const imagesOnly = root.dataset.motion === 'return-pending';
+  if ((!imagesOnly && root.dataset.motion !== 'pending') || reducedMotion.matches) {
     finishEntrance();
     return;
   }
@@ -24,15 +25,19 @@
   document.querySelectorAll('.projects-page__footer > span').forEach((span, index) => {
     span.style.setProperty('--project-motion-delay', `${680 + index * 80}ms`);
   });
-  const cards = [...document.querySelectorAll('.project-card')];
+  // The shared script restores the saved filter before this deferred script runs.
+  const cards = [...document.querySelectorAll('.project-card')].filter(card => !card.hidden);
+  const imageSelector = document.querySelector('.project-grid').dataset.layout === 'all'
+    ? '.project-image--all' : '.project-image--filtered';
   // Follow visual order: the desktop grid swaps POLSO and BATTLELIGHT.
   const ordered = cards.map(card => ({ card, rect: card.getBoundingClientRect() }))
     .sort((a, b) => a.rect.top - b.rect.top || a.rect.left - b.rect.left);
   page.classList.add('projects-motion-enabled');
+  if (imagesOnly) page.classList.add('projects-motion-images-only');
   root.dataset.motion = 'running';
 
   ordered.forEach(({ card }, index) => {
-    const image = card.querySelector('.project-image--all');
+    const image = card.querySelector(imageSelector);
     let revealed = false;
     card.addEventListener('animationend', event => {
       if (event.target !== card || event.animationName !== 'projects-mask-out') return;
