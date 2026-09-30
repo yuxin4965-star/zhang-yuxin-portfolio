@@ -310,6 +310,7 @@ function prefetchPrimaryNavigation() {
   document.querySelectorAll('.main-nav a, .gallery-nav-link').forEach((anchor) => {
     prefetchDocument(anchor.href);
   });
+  projectCards.forEach((card) => prefetchDocument(card.href));
 }
 
 if ('requestIdleCallback' in window) {

@@ -14,6 +14,22 @@
     });
   }
 
+  function prefetchAdjacentProjects() {
+    document.querySelectorAll('.project-pagination a[href]').forEach((anchor) => {
+      const hint = document.createElement('link');
+      hint.rel = 'prefetch';
+      hint.as = 'document';
+      hint.href = anchor.href;
+      document.head.appendChild(hint);
+    });
+  }
+
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(prefetchAdjacentProjects, { timeout: 1800 });
+  } else {
+    window.setTimeout(prefetchAdjacentProjects, 900);
+  }
+
   const deferredImages = [...document.querySelectorAll('img[data-src]')];
   if (!deferredImages.length) return;
 
