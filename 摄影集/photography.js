@@ -10,7 +10,9 @@
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const fullImages = new Map();
   const imageQueue = [];
+  const previewQueue = [];
   let inFlight = 0;
+  let previewInFlight = 0;
   let activationVersion = 0;
   const strips = [];
   // Exactly one interactive strip per photo. The remaining visual slivers
@@ -21,6 +23,31 @@
   let ready = false;
   let touch = null;
   let announcementTimer;
+
+  function pumpPreviews() {
+    while (previewInFlight < 8 && previewQueue.length) {
+      const entry = previewQueue.shift();
+      previewInFlight++;
+      const finish = () => {
+        entry.image.onload = null;
+        entry.image.onerror = null;
+        previewInFlight--;
+        entry.resolve();
+        pumpPreviews();
+      };
+      entry.image.onload = finish;
+      entry.image.onerror = finish;
+      entry.image.fetchPriority = entry.priority ? 'high' : 'low';
+      entry.image.src = entry.src;
+      if (entry.image.complete) finish();
+    }
+  }
+
+  function queuePreview(image, src, priority = false) {
+    return new Promise((resolve) => {
+      previewQueue.push({ image, src, priority, resolve });
+    });
+  }
 
   // No low-resolution placeholder or pixel shader. Decode the native-size
   // image before inserting it. Limit full-resolution requests and memory.
@@ -187,7 +214,7 @@
 
   const fragment = document.createDocumentFragment();
   let loaded = 0;
-  const previewLoads = photos.map((photo, index) => {
+  photos.forEach((photo, index) => {
     const strip = document.createElement('button');
     strip.type = 'button';
     strip.className = 'photo-strip';
@@ -201,7 +228,7 @@
     preview.alt = '';
     preview.draggable = false;
     preview.decoding = 'async';
-    preview.src = photo.preview;
+    preview.dataset.src = photo.preview;
     const detail = document.createElement('span');
     detail.className = 'photo-detail';
     detail.setAttribute('aria-hidden', 'true');
@@ -218,10 +245,6 @@
     strip.addEventListener('click', () => activate(index));
     strips.push(strip);
     fragment.appendChild(strip);
-    return preview.decode().catch(() => {}).then(() => {
-      loaded++;
-      progress.style.transform = `scaleX(${loaded / photos.length})`;
-    });
   });
   function decoration(index) {
     const sliver = document.createElement('span');
@@ -234,7 +257,7 @@
     preview.decoding = 'async';
     // Sample different narrow portions of existing previews for texture only.
     // No photo id, button, detail view or event handler is attached here.
-    preview.src = window.PHOTOGRAPHY_DECORATIONS?.[index] || photos[(index * 37 + 11) % photos.length].preview;
+    preview.dataset.src = window.PHOTOGRAPHY_DECORATIONS?.[index] || photos[(index * 37 + 11) % photos.length].preview;
     sliver.appendChild(preview);
     return sliver;
   }
@@ -245,6 +268,20 @@
     track.appendChild(fragment);
     for (let i = beforeCount; i < extraCount; i++) track.appendChild(decoration(i));
   }
+
+  const previewImages = [...track.querySelectorAll('.photo-strip__sliver')];
+  const priorityStep = Math.max(1, Math.floor(previewImages.length / 24));
+  const priorityImages = previewImages.filter((_, index) => index % priorityStep === 0);
+  const regularImages = previewImages.filter((_, index) => index % priorityStep !== 0);
+  const previewLoads = new Map();
+  [...priorityImages, ...regularImages].forEach((preview) => {
+    const promise = queuePreview(preview, preview.dataset.src, priorityImages.includes(preview)).then(() => {
+      loaded++;
+      progress.style.transform = `scaleX(${loaded / previewImages.length})`;
+    });
+    previewLoads.set(preview, promise);
+  });
+  pumpPreviews();
 
   track.addEventListener('pointermove', event => {
     if (event.pointerType === 'mouse') {
@@ -325,8 +362,11 @@
 
   async function start() {
     await Promise.all([
-      new Promise(resolve => setTimeout(resolve, reducedMotion.matches ? 0 : 700)),
-      Promise.race([Promise.all(previewLoads), new Promise(resolve => setTimeout(resolve, 8000))]),
+      new Promise(resolve => setTimeout(resolve, reducedMotion.matches ? 0 : 250)),
+      Promise.race([
+        Promise.all(priorityImages.map(image => previewLoads.get(image))),
+        new Promise(resolve => setTimeout(resolve, 1800)),
+      ]),
     ]);
     ready = true;
     loader.classList.add('is-done');
@@ -339,7 +379,7 @@
     if (!reducedMotion.matches) {
       [...track.children].forEach((strip, index) => {
         strip.animate([{ opacity: 0, transform: 'scaleX(4)' }, { opacity: 1, transform: 'scaleX(1)' }],
-          { duration: 140, delay: index * 10, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'backwards' });
+          { duration: 140, delay: Math.min(index, 48) * 8, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'backwards' });
       });
     }
   }

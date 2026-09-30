@@ -17,7 +17,7 @@
 
   function waitForFonts() {
     const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
-    const timeout = new Promise((resolve) => window.setTimeout(resolve, 700));
+    const timeout = new Promise((resolve) => window.setTimeout(resolve, 200));
     return Promise.race([fontsReady, timeout]);
   }
 

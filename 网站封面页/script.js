@@ -25,8 +25,26 @@ const filterButtons = [...document.querySelectorAll('.filter-button')];
 const projectCards = [...document.querySelectorAll('.project-card')];
 const projectGrid = document.querySelector('.project-grid');
 const projectCardAnimations = new Map();
+const prefetchedDocuments = new Set();
 let projectFilterRun = 0;
 let returnPreviewTimer;
+
+function prefetchDocument(href) {
+  if (!href) return;
+  const url = new URL(href, window.location.href);
+  if (url.origin !== window.location.origin || url.href === window.location.href) return;
+  if (prefetchedDocuments.has(url.href)) return;
+  prefetchedDocuments.add(url.href);
+  const hint = document.createElement('link');
+  hint.rel = 'prefetch';
+  hint.as = 'document';
+  hint.href = url.href;
+  document.head.appendChild(hint);
+}
+
+function warmProjectCard(card) {
+  prefetchDocument(card.href);
+}
 
 function showReturnedProjectPreview() {
   if (!projectCards.length || !window.matchMedia('(hover: hover)').matches) return;
@@ -49,10 +67,12 @@ function showReturnedProjectPreview() {
 
 projectCards.forEach((card) => {
   card.addEventListener('pointerenter', () => {
+    warmProjectCard(card);
     if (!card.classList.contains('is-return-preview')) {
       card.classList.remove('is-return-suppressed');
     }
   });
+  card.addEventListener('focus', () => warmProjectCard(card), { once: true });
   card.addEventListener('pointerleave', () => {
     if (!card.classList.contains('is-return-preview')) {
       card.classList.remove('is-return-suppressed');
@@ -168,7 +188,20 @@ function applyProjectFilter(filter, { animate = true } = {}) {
 }
 
 filterButtons.forEach((button) => {
+  const warmFilterImages = () => {
+    const filter = button.dataset.filter;
+    if (!filter || filter === 'all') return;
+    projectCards
+      .filter((card) => card.dataset.category === filter)
+      .forEach((card) => {
+        const image = card.querySelector('.project-image--filtered');
+        if (image) image.loading = 'eager';
+      });
+  };
+  button.addEventListener('pointerenter', warmFilterImages, { once: true });
+  button.addEventListener('focus', warmFilterImages, { once: true });
   button.addEventListener('click', () => {
+    warmFilterImages();
     if (button.classList.contains('active')) return;
     applyProjectFilter(button.dataset.filter);
   });
@@ -256,3 +289,15 @@ languageToggle?.addEventListener('click', () => {
 });
 
 applyLanguage(language);
+
+function prefetchPrimaryNavigation() {
+  document.querySelectorAll('.main-nav a, .gallery-nav-link').forEach((anchor) => {
+    prefetchDocument(anchor.href);
+  });
+}
+
+if ('requestIdleCallback' in window) {
+  window.requestIdleCallback(prefetchPrimaryNavigation, { timeout: 1600 });
+} else {
+  window.setTimeout(prefetchPrimaryNavigation, 700);
+}

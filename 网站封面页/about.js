@@ -47,7 +47,7 @@
       ? portrait.decode().catch(() => undefined)
       : Promise.resolve();
     const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
-    const timeout = new Promise((resolve) => window.setTimeout(resolve, 900));
+    const timeout = new Promise((resolve) => window.setTimeout(resolve, 300));
 
     return Promise.race([Promise.all([imageReady, fontsReady]), timeout]);
   }
