@@ -1,3 +1,19 @@
+function useCanonicalCloudflareLinks() {
+  if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(window.location.hostname)) return;
+  document.querySelectorAll('a[href]').forEach((anchor) => {
+    const url = new URL(anchor.href, window.location.href);
+    if (url.origin !== window.location.origin) return;
+    if (url.pathname.endsWith('/index.html')) {
+      url.pathname = url.pathname.slice(0, -'index.html'.length);
+    } else if (url.pathname.endsWith('.html')) {
+      url.pathname = url.pathname.slice(0, -'.html'.length);
+    }
+    anchor.href = url.href;
+  });
+}
+
+useCanonicalCloudflareLinks();
+
 const header = document.querySelector('.site-header');
 const themeSections = [...document.querySelectorAll('[data-header-theme]')];
 

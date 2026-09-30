@@ -1,12 +1,65 @@
 <!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="0; url=./网站封面页/index.html">
-  <title>Zhang Yuxin — Personal Website</title>
-</head>
-<body>
-  <p><a href="./网站封面页/index.html">进入个人网站</a></p>
-</body>
+<html class="home-root" lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#050505" />
+    <meta name="description" content="张雨馨的个人网站：交互设计、工业设计、UI/UX 与生活影像。" />
+    <meta property="og:title" content="Zhang Yuxin — Personal Website" />
+    <meta property="og:description" content="张雨馨的个人网站、项目档案与生活影像。" />
+    <meta property="og:type" content="website" />
+    <base href="/网站封面页/" />
+    <title>Zhang Yuxin — Personal Website</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23050505'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%23ff5b2e'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="styles.css?v=20260930-cover-motion-1" />
+    <link rel="stylesheet" href="pixel-companion-demo/pixel-companion/pixel-companion.css?v=20260812-4" />
+  </head>
+  <body class="home-page">
+    <header class="site-header motion-cover-header" data-theme="dark" aria-label="主导航">
+      <a class="brand" href="index.html" aria-label="返回首页">YUXIN</a>
+      <nav class="main-nav" aria-label="主要导航">
+        <a href="index.html" aria-current="page">首页</a>
+        <a href="projects.html" data-i18n="navWork">项目</a>
+        <a href="about.html" data-i18n="navAbout">关于</a>
+        <a class="contact-nav-link" href="contact.html" data-i18n="navContact">联系</a>
+      </nav>
+      <a class="gallery-nav-link" href="../摄影集/index.html" aria-label="打开摄影集">
+        <span class="gallery-nav-label" aria-hidden="true">摄影集</span>
+        <img src="assets/gallery-nav-icon.svg" alt="" width="20" height="20" />
+      </a>
+    </header>
+
+    <main id="top" class="home-canvas">
+      <div class="motion-cover-media" aria-hidden="true">
+        <img class="home-canvas__photo motion-cover-photo" src="assets/figma-cover-background.jpg" alt="" loading="eager" decoding="async" fetchpriority="high" />
+      </div>
+      <div class="home-canvas__veil" aria-hidden="true"></div>
+
+      <section class="home-cover" data-header-theme="dark" aria-labelledby="hero-name">
+        <div class="home-cover__identity">
+          <div class="portfolio-mark" aria-label="Portfolio 2026">
+            <span>PORTFOLIO</span><span class="portfolio-year">2026</span>
+          </div>
+          <h1 id="hero-name" class="motion-cover-clip"><span class="motion-cover-line" style="--motion-delay: 360ms">ZHANG YUXIN</span></h1>
+          <p class="home-cover__roles">
+            <span data-i18n="roleInteraction">交互设计师</span>
+            <span aria-hidden="true">·</span>
+            <span data-i18n="roleIndustrial">工业设计师</span>
+            <span aria-hidden="true">·</span>
+            <span>产品经理</span>
+            <span aria-hidden="true">·</span>
+            <span>UI / UX</span>
+          </p>
+        </div>
+      </section>
+      <footer class="page-footer home-page__footer motion-cover-footer">
+        <span>ZHANG YUXIN © 2026</span>
+        <span>PERSONAL PORTFOLIO</span>
+      </footer>
+    </main>
+
+    <script src="script.js?v=20260930-performance-2"></script>
+    <script src="cover-motion.js?v=20260930-performance-1"></script>
+    <script src="pixel-companion-demo/pixel-companion/pixel-companion.js?v=20260812-4"></script>
+  </body>
 </html>
