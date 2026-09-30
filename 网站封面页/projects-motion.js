@@ -33,12 +33,19 @@
 
   ordered.forEach(({ card }, index) => {
     const image = card.querySelector('.project-image--all');
+    let revealed = false;
+    card.addEventListener('animationend', event => {
+      if (event.target !== card || event.animationName !== 'projects-mask-out') return;
+      card.classList.add('is-project-image-settled');
+    });
     const ready = () => {
-      if (!active) return;
+      if (!active || revealed) return;
+      revealed = true;
       // Late images reveal on arrival; don't add the whole stagger again.
       const delay = Math.max(0, 240 + index * 55 - (performance.now() - started));
-      image.style.setProperty('--project-motion-delay', `${delay}ms`);
+      card.style.setProperty('--project-motion-delay', `${delay}ms`);
       image.classList.add('is-project-image-ready');
+      card.classList.add('is-project-image-ready');
     };
     const decode = () => {
       if (typeof image.decode === 'function') image.decode().then(ready, ready);
