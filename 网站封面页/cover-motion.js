@@ -2,15 +2,12 @@
   const page = document.body;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  function waitForCoverAssets() {
+  function revealCoverPhoto() {
     const photo = document.querySelector('.motion-cover-photo');
     const imageReady = photo && typeof photo.decode === 'function'
       ? photo.decode().catch(() => undefined)
       : Promise.resolve();
-    const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
-    const timeout = new Promise((resolve) => window.setTimeout(resolve, 250));
-
-    return Promise.race([Promise.all([imageReady, fontsReady]), timeout]);
+    imageReady.then(() => page.classList.add('is-cover-image-ready'));
   }
 
   function assignDelays() {
@@ -24,11 +21,13 @@
   }
 
   function prepareCoverMotion() {
-    if (page.classList.contains('cover-motion-prepared') || reducedMotion.matches) return;
+    if (page.classList.contains('cover-motion-prepared') || reducedMotion.matches ||
+        document.documentElement.dataset.motion !== 'pending') return;
     page.classList.add('cover-motion-prepared', 'cover-motion-enabled');
+    document.documentElement.dataset.motion = 'running';
     assignDelays();
-
-    waitForCoverAssets().finally(() => {
+    revealCoverPhoto();
+    Promise.race([document.fonts.ready, new Promise(resolve => setTimeout(resolve, 250))]).finally(() => {
       requestAnimationFrame(() => page.classList.add('is-cover-visible'));
     });
   }
@@ -39,6 +38,8 @@
     }
   });
 
-  reducedMotion.addEventListener('change', prepareCoverMotion);
+  reducedMotion.addEventListener('change', () => {
+    if (reducedMotion.matches) page.classList.remove('cover-motion-enabled');
+  });
   prepareCoverMotion();
 })();

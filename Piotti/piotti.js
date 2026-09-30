@@ -129,14 +129,7 @@
     goTo(target);
     history.replaceState(null, '', link.hash);
   }));
-  document.querySelectorAll('.project-switch,.back-link').forEach(link => link.addEventListener('click', event => {
-    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0 || reduced.matches) return;
-    event.preventDefault();
-    if (leaving) return;
-    leaving = true;
-    document.body.classList.add('is-leaving');
-    navigationTimer = setTimeout(() => location.assign(link.href), 350);
-  }));
+  // Native navigation keeps the current page visible until the destination is ready.
   const zh = {back:'返回',previous:'上一个项目',next:'下一个项目',top:'返回顶部 ↑',overview:'方案概览',process:'设计流程',direction:'设计方向定义',findings:'调研发现总结',journey:'用户旅程图',concept:'Piotti最终概念',iteration:'设计方案迭代',validation:'设计方案验证',prototype:'最终原型界面',system:'设计系统',accessibility:'无障碍标准',demo:'无障碍使用演示'};
   const en = {back:'Back',previous:'Previous project',next:'Next project',top:'Back to top ↑',overview:'Overview',process:'Design process',direction:'Design direction',findings:'Research findings',journey:'User journeys',concept:'Final concept',iteration:'Design iterations',validation:'User testing',prototype:'Final interfaces',system:'Design system',accessibility:'Accessibility',demo:'Accessible interaction'};
   function language(value) {

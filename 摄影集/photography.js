@@ -3,13 +3,14 @@
 
   if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(window.location.hostname)) {
     document.querySelectorAll('a[href]').forEach((anchor) => {
+      if (anchor.getAttribute('href').startsWith('#')) return;
       const url = new URL(anchor.href, window.location.href);
       if (url.origin !== window.location.origin) return;
       if (url.pathname.endsWith('/index.html')) {
         url.pathname = url.pathname.slice(0, -'index.html'.length);
       } else if (url.pathname.endsWith('.html')) {
         url.pathname = url.pathname.slice(0, -'.html'.length);
-      }
+      } else return;
       anchor.href = url.href;
     });
   }
@@ -41,9 +42,16 @@
     while (previewInFlight < 8 && previewQueue.length) {
       const entry = previewQueue.shift();
       previewInFlight++;
-      const finish = () => {
+      let finished = false;
+      const finish = async () => {
+        if (finished) return;
+        finished = true;
         entry.image.onload = null;
         entry.image.onerror = null;
+        try {
+          await entry.image.decode();
+          entry.image.classList.add('is-ready');
+        } catch (_) {}
         previewInFlight--;
         entry.resolve();
         pumpPreviews();
@@ -389,6 +397,8 @@
       status.textContent = '照片列表加载失败，请刷新页面。';
       return;
     }
+    const focusedStrip = document.activeElement?.closest('.photo-strip');
+    if (focusedStrip) activate(Number(focusedStrip.dataset.index));
     if (!reducedMotion.matches) {
       [...track.children].forEach((strip, index) => {
         strip.animate([{ opacity: 0, transform: 'scaleX(4)' }, { opacity: 1, transform: 'scaleX(1)' }],

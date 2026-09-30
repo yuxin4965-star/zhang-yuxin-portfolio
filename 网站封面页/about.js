@@ -46,10 +46,11 @@
     const imageReady = portrait && typeof portrait.decode === 'function'
       ? portrait.decode().catch(() => undefined)
       : Promise.resolve();
+    imageReady.then(() => page.classList.add('is-hero-image-ready'));
     const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
     const timeout = new Promise((resolve) => window.setTimeout(resolve, 300));
 
-    return Promise.race([Promise.all([imageReady, fontsReady]), timeout]);
+    return Promise.race([fontsReady, timeout]);
   }
 
   function revealHero() {
@@ -100,8 +101,10 @@
   }
 
   function prepareMotion() {
-    if (page.classList.contains('motion-prepared') || reducedMotion.matches) return;
+    if (page.classList.contains('motion-prepared') || reducedMotion.matches ||
+        document.documentElement.dataset.motion !== 'pending') return;
     page.classList.add('motion-prepared', 'motion-enabled');
+    document.documentElement.dataset.motion = 'running';
     prepareScrollMotion();
     revealHero();
   }
@@ -116,7 +119,7 @@
   desktop.addEventListener('change', initLenis);
   reducedMotion.addEventListener('change', () => {
     initLenis();
-    prepareMotion();
+    if (reducedMotion.matches) page.classList.remove('motion-enabled');
   });
   window.addEventListener('pagehide', destroyLenis);
   window.addEventListener('pageshow', (event) => {

@@ -22,8 +22,10 @@
   }
 
   function prepareContactMotion() {
-    if (page.classList.contains('contact-motion-prepared') || reducedMotion.matches) return;
+    if (page.classList.contains('contact-motion-prepared') || reducedMotion.matches ||
+        document.documentElement.dataset.motion !== 'pending') return;
     page.classList.add('contact-motion-prepared', 'contact-motion-enabled');
+    document.documentElement.dataset.motion = 'running';
     assignDelays();
 
     waitForFonts().finally(() => {
@@ -37,6 +39,8 @@
     }
   });
 
-  reducedMotion.addEventListener('change', prepareContactMotion);
+  reducedMotion.addEventListener('change', () => {
+    if (reducedMotion.matches) page.classList.remove('contact-motion-enabled');
+  });
   prepareContactMotion();
 })();

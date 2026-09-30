@@ -178,16 +178,7 @@
     });
   });
 
-  document.querySelectorAll('.project-switch,.back-link').forEach(link => {
-    link.addEventListener('click', event => {
-      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0 || reduced.matches) return;
-      event.preventDefault();
-      if (leaving) return;
-      leaving = true;
-      document.body.classList.add('is-leaving');
-      navigationTimer = setTimeout(() => location.assign(link.href), 350);
-    });
-  });
+  // Use native navigation so network waits never leave an opaque exit mask on screen.
 
   // Navigation language follows the portfolio preference. Case-study copy is
   // the original designer-supplied content, including the English TV screens.

@@ -1,0 +1,6 @@
+/* Keep undecoded lazy images from flashing broken-image icons or alt text. */
+img[data-src] { visibility: hidden; }
+img.image-load-error { visibility: visible; }
+@media print {
+  img[data-src] { visibility: visible; }
+}

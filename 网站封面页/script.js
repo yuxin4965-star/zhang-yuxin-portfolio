@@ -1,13 +1,14 @@
 function useCanonicalCloudflareLinks() {
   if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(window.location.hostname)) return;
   document.querySelectorAll('a[href]').forEach((anchor) => {
+    if (anchor.getAttribute('href').startsWith('#')) return;
     const url = new URL(anchor.href, window.location.href);
     if (url.origin !== window.location.origin) return;
     if (url.pathname.endsWith('/index.html')) {
       url.pathname = url.pathname.slice(0, -'index.html'.length);
     } else if (url.pathname.endsWith('.html')) {
       url.pathname = url.pathname.slice(0, -'.html'.length);
-    }
+    } else return;
     anchor.href = url.href;
   });
 }
@@ -43,7 +44,9 @@ const projectGrid = document.querySelector('.project-grid');
 const projectCardAnimations = new Map();
 const prefetchedDocuments = new Set();
 let projectFilterRun = 0;
-let returnPreviewTimer;
+let requestedFilter = 'all';
+let imageRequestRun = 0;
+const filterImageLoads = new WeakMap();
 
 function prefetchDocument(href) {
   if (!href) return;
@@ -62,26 +65,31 @@ function warmProjectCard(card) {
   prefetchDocument(card.href);
 }
 
-function showReturnedProjectPreview() {
-  if (!projectCards.length || !window.matchMedia('(hover: hover)').matches) return;
-
-  clearTimeout(returnPreviewTimer);
+function resetReturnedCardState() {
   projectCards.forEach((card) => {
-    card.classList.remove('is-return-preview', 'is-return-suppressed', 'is-return-focus-muted');
+    cancelProjectCardAnimation(card);
+    card.classList.remove('is-return-preview', 'is-return-focus-muted');
+    card.classList.add('is-return-suppressed');
   });
-
-  const returnedCard = projectCards.find((card) => `#${card.id}` === window.location.hash);
-  if (!returnedCard) return;
-
-  returnedCard.classList.add('is-return-preview');
-  returnPreviewTimer = window.setTimeout(() => {
-    returnedCard.classList.remove('is-return-preview');
-    returnedCard.classList.add('is-return-suppressed');
-    if (returnedCard.matches(':focus-visible')) returnedCard.classList.add('is-return-focus-muted');
-  }, 1000);
 }
 
+document.addEventListener('keydown', (event) => {
+  if (event.key !== 'Tab') return;
+  document.documentElement.dataset.input = 'keyboard';
+  projectCards.forEach((card) => card.classList.remove('is-return-suppressed'));
+});
+document.addEventListener('pointerdown', () => {
+  document.documentElement.dataset.input = 'pointer';
+}, { passive: true });
+
 projectCards.forEach((card) => {
+  card.addEventListener('click', () => {
+    try {
+      sessionStorage.setItem('portfolio-project-return', JSON.stringify({
+        card: card.id, filter: projectGrid.dataset.layout
+      }));
+    } catch (_) {}
+  });
   card.addEventListener('pointerenter', () => {
     warmProjectCard(card);
     if (!card.classList.contains('is-return-preview')) {
@@ -89,6 +97,7 @@ projectCards.forEach((card) => {
     }
   });
   card.addEventListener('focus', () => warmProjectCard(card), { once: true });
+  card.addEventListener('pointermove', () => card.classList.remove('is-return-suppressed'), { passive: true });
   card.addEventListener('pointerleave', () => {
     if (!card.classList.contains('is-return-preview')) {
       card.classList.remove('is-return-suppressed');
@@ -168,6 +177,7 @@ function commitProjectFilter(filter, oldRects, runId, shouldAnimate) {
 function applyProjectFilter(filter, { animate = true } = {}) {
   if (!projectGrid) return;
   const runId = ++projectFilterRun;
+  projectCards.forEach(cancelProjectCardAnimation);
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const shouldAnimate = animate && !reduceMotion;
   const visibleCards = projectCards.filter((card) => !card.hidden);
@@ -203,30 +213,80 @@ function applyProjectFilter(filter, { animate = true } = {}) {
   });
 }
 
-filterButtons.forEach((button) => {
-  const warmFilterImages = () => {
-    const filter = button.dataset.filter;
-    if (!filter || filter === 'all') return;
-    projectCards
-      .filter((card) => card.dataset.category === filter)
-      .forEach((card) => {
-        const image = card.querySelector('.project-image--filtered');
-        if (image) image.loading = 'eager';
+function loadFilterImages(filter) {
+  return Promise.all(projectCards
+    .filter((card) => filter === 'all' || card.dataset.category === filter)
+    .map((card) => {
+      const image = card.querySelector(filter === 'all' ? '.project-image--all' : '.project-image--filtered');
+      if (filterImageLoads.has(image)) return filterImageLoads.get(image);
+      image.loading = 'eager';
+      const ready = image.decode().then(() => true, () => {
+        filterImageLoads.delete(image);
+        return false;
       });
-  };
+      filterImageLoads.set(image, ready);
+      return ready;
+    }));
+}
+
+filterButtons.forEach((button) => {
+  const warmFilterImages = () => loadFilterImages(button.dataset.filter);
   button.addEventListener('pointerenter', warmFilterImages, { once: true });
   button.addEventListener('focus', warmFilterImages, { once: true });
-  button.addEventListener('click', () => {
-    warmFilterImages();
-    if (button.classList.contains('active')) return;
-    applyProjectFilter(button.dataset.filter);
+  button.addEventListener('click', async () => {
+    const request = ++imageRequestRun;
+    ++projectFilterRun;
+    projectCards.forEach(cancelProjectCardAnimation);
+    updateProjectFilterButtons(projectGrid.dataset.layout);
+    requestedFilter = button.dataset.filter;
+    projectGrid.setAttribute('aria-busy', 'true');
+    button.classList.add('is-loading');
+    let loadTimeout;
+    const loaded = await Promise.race([
+      warmFilterImages(),
+      new Promise((resolve) => { loadTimeout = setTimeout(() => resolve([false]), 15000); })
+    ]);
+    clearTimeout(loadTimeout);
+    button.classList.remove('is-loading');
+    if (request !== imageRequestRun) return;
+    projectGrid.removeAttribute('aria-busy');
+    if (loaded.some((success) => !success)) {
+      document.querySelector('.project-filter-status').textContent = language === 'en'
+        ? 'Images could not load. Please try the filter again.' : '图片暂时未加载成功，请再次点击筛选重试。';
+      return;
+    }
+    document.querySelector('.project-filter-status').textContent = '';
+    if (projectGrid.dataset.layout !== requestedFilter) applyProjectFilter(requestedFilter);
   });
 });
 
 window.addEventListener('pageshow', (event) => {
-  if (event.persisted && filterButtons.length) applyProjectFilter('all', { animate: false });
-  showReturnedProjectPreview();
+  if (!projectGrid) return;
+  if (event.persisted) {
+    ++imageRequestRun;
+    ++projectFilterRun;
+    projectGrid.removeAttribute('aria-busy');
+    filterButtons.forEach((button) => button.classList.remove('is-loading'));
+    updateProjectFilterButtons(projectGrid.dataset.layout);
+  }
+  resetReturnedCardState();
 });
+
+if (projectGrid) {
+  let saved;
+  try { saved = JSON.parse(sessionStorage.getItem('portfolio-project-return')); } catch (_) {}
+  const returned = projectCards.find((card) => `#${card.id}` === location.hash);
+  const historyReturn = performance.getEntriesByType('navigation')[0]?.type === 'back_forward';
+  if (saved && (returned?.id === saved.card || historyReturn) &&
+      filterButtons.some((button) => button.dataset.filter === saved.filter) &&
+      (!returned || saved.filter === 'all' || returned.dataset.category === saved.filter)) {
+    requestedFilter = saved.filter;
+    applyProjectFilter(saved.filter, { animate: false });
+    loadFilterImages(saved.filter);
+  }
+  resetReturnedCardState();
+  document.documentElement.dataset.motion = 'ready';
+}
 
 const translations = {
   zh: {
@@ -278,7 +338,8 @@ const translations = {
 };
 
 const languageToggle = document.querySelector('.language-toggle');
-let language = localStorage.getItem('portfolio-language') === 'en' ? 'en' : 'zh';
+let language = 'zh';
+try { language = localStorage.getItem('portfolio-language') === 'en' ? 'en' : 'zh'; } catch (_) {}
 
 function applyLanguage(nextLanguage) {
   language = nextLanguage;
@@ -297,7 +358,7 @@ function applyLanguage(nextLanguage) {
     languageToggle.setAttribute('aria-label', language === 'zh' ? '切换为英文' : 'Switch to Chinese');
   }
 
-  localStorage.setItem('portfolio-language', language);
+  try { localStorage.setItem('portfolio-language', language); } catch (_) {}
 }
 
 languageToggle?.addEventListener('click', () => {

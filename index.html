@@ -3,6 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (() => {
+        const root = document.documentElement;
+        const restored = performance.getEntriesByType('navigation')[0]?.type === 'back_forward';
+        root.dataset.motion = restored ? 'restored' : matchMedia('(prefers-reduced-motion: reduce)').matches ? 'off' : 'pending';
+        setTimeout(() => { if (root.dataset.motion === 'pending') root.dataset.motion = 'off'; }, 4000);
+        addEventListener('pageshow', (event) => {
+          if (!event.persisted) return;
+          root.dataset.motion = 'restored';
+          document.body.classList.remove('cover-motion-enabled', 'contact-motion-enabled', 'motion-enabled');
+        });
+      })();
+    </script>
     <meta name="theme-color" content="#050505" />
     <meta name="description" content="张雨馨的个人网站：交互设计、工业设计、UI/UX 与生活影像。" />
     <meta property="og:title" content="Zhang Yuxin — Personal Website" />
@@ -11,8 +24,9 @@
     <base href="/网站封面页/" />
     <title>Zhang Yuxin — Personal Website</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23050505'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%23ff5b2e'/%3E%3C/svg%3E" />
-    <link rel="stylesheet" href="styles.css?v=20260930-cover-motion-1" />
+    <link rel="stylesheet" href="styles.css?v=20260930-bugfix-1" />
     <link rel="stylesheet" href="pixel-companion-demo/pixel-companion/pixel-companion.css?v=20260812-4" />
+    <link rel="stylesheet" href="motion-safety.css?v=20260930-bugfix-1" />
   </head>
   <body class="home-page">
     <header class="site-header motion-cover-header" data-theme="dark" aria-label="主导航">
@@ -58,8 +72,8 @@
       </footer>
     </main>
 
-    <script src="script.js?v=20260930-performance-3"></script>
-    <script src="cover-motion.js?v=20260930-performance-1"></script>
+    <script src="script.js?v=20260930-bugfix-1"></script>
+    <script src="cover-motion.js?v=20260930-bugfix-1"></script>
     <script src="pixel-companion-demo/pixel-companion/pixel-companion.js?v=20260812-4"></script>
   </body>
 </html>

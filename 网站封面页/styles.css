@@ -2480,11 +2480,11 @@ img { display: block; max-width: 100%; }
   will-change: transform, opacity;
 }
 
-.cover-motion-enabled.is-cover-visible .motion-cover-media {
+.cover-motion-enabled.is-cover-image-ready .motion-cover-media {
   animation: cover-mask-reveal 1.2s cubic-bezier(.16, 1, .3, 1) both;
 }
 
-.cover-motion-enabled.is-cover-visible .motion-cover-photo {
+.cover-motion-enabled.is-cover-image-ready .motion-cover-photo {
   animation: cover-image-settle 2.1s cubic-bezier(.16, 1, .3, 1) both;
 }
 

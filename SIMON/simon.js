@@ -115,16 +115,7 @@
     });
   });
 
-  document.querySelectorAll('.project-switch,.back-link').forEach(link => {
-    link.addEventListener('click', event => {
-      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0 || reduced.matches) return;
-      if (leaving) { event.preventDefault(); return; }
-      event.preventDefault();
-      leaving = true;
-      document.body.classList.add('is-leaving');
-      navigationTimer = setTimeout(() => location.assign(link.href), 350);
-    });
-  });
+  // Use native navigation so network waits never leave an opaque exit mask on screen.
 
   const translations = {
     zh:{back:'返回',film:'SIMON 宣传视频',overview:'项目简述',process:'设计流程',pain:'痛点发现',mechanism:'核心功能',map:'System Map',scenes:'使用场景',features:'核心特点',ux:'UX体验亮点',previous:'上一个项目',next:'下一个项目',top:'返回顶部 ↑'},

@@ -101,14 +101,7 @@
     history.replaceState(null,'',link.hash);
     goTo(target);
   }));
-  document.querySelectorAll('.project-switch,.back-link').forEach(link => link.addEventListener('click', event => {
-    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0 || reduced.matches) return;
-    event.preventDefault();
-    if (leaving) return;
-    leaving = true;
-    document.body.classList.add('is-leaving');
-    navigationTimer = setTimeout(() => location.assign(link.href),350);
-  }));
+  // Native navigation keeps the current page visible until the destination is ready.
   const translations = {
     zh:{back:'返回',previous:'上一个项目',next:'下一个项目',top:'返回顶部 ↑',background:'项目背景',persona:'目标用户画像',journey:'用户旅程图',research:'现有产品调研',sketches:'概念草图迭代',concept:'最终概念',highlights:'设计亮点',lighting:'灯效交互',scenarios:'多场景适配',details:'设计细节',manual:'产品说明书',prototype:'实体原型'},
     en:{back:'Back',previous:'Previous project',next:'Next project',top:'Back to top ↑',background:'Background',persona:'Persona',journey:'User journey',research:'Product research',sketches:'Concept sketches',concept:'Final concept',highlights:'Design highlights',lighting:'Light interaction',scenarios:'Different scenarios',details:'Design details',manual:'User manual',prototype:'Physical prototype'}

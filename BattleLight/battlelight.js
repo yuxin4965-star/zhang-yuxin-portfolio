@@ -108,16 +108,7 @@
       goTo(target);
     });
   });
-  document.querySelectorAll('.project-switch').forEach(link => {
-    link.addEventListener('click', event => {
-      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0 || reduced.matches) return;
-      event.preventDefault();
-      if (leaving) return;
-      leaving = true;
-      document.body.classList.add('is-leaving');
-      navigationTimer = setTimeout(() => location.assign(link.href), 350);
-    });
-  });
+  // Native navigation keeps the current page visible until the destination is ready.
   const translations = {
     zh:{back:'返回',overview:'项目简述',video:'玩法视频',rules:'使用规则',features:'核心特质',hardware:'硬件架构',flow:'逻辑流程图',story:'幕后故事',previous:'上一个项目',next:'下一个项目',top:'返回顶部 ↑'},
     en:{back:'Back',overview:'Overview',video:'Gameplay video',rules:'How to play',features:'Key features',hardware:'Hardware',flow:'Logic flow',story:'Behind the scenes',previous:'Previous project',next:'Next project',top:'Back to top ↑'}

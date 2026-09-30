@@ -1,0 +1,48 @@
+/* Apply the initial state before the first paint, not after scripts download. */
+html[data-motion="pending"] .home-page .motion-cover-media,
+html[data-motion="pending"] .home-page .home-canvas__veil,
+html[data-motion="pending"] .home-page .home-cover,
+html[data-motion="pending"] .home-page .motion-cover-header,
+html[data-motion="pending"] .home-page .motion-cover-footer,
+html[data-motion="pending"] .about-page .about-hero,
+html[data-motion="pending"] .contact-page .motion-contact-header,
+html[data-motion="pending"] .contact-page .contact-page__main,
+html[data-motion="pending"] .projects-page .project-grid {
+  visibility: hidden;
+}
+
+/* Pointer/history focus is not keyboard navigation. Keep a real Tab indicator. */
+html:not([data-input="keyboard"]) .projects-page .project-card:focus-visible {
+  box-shadow: none;
+  outline: none;
+}
+html:not([data-input="keyboard"]) .projects-page .project-card:focus-visible:not(:hover) .project-overlay {
+  opacity: 0;
+  transform: translateY(100%);
+}
+.projects-page .project-card {
+  animation: none;
+}
+.projects-page .filter-button.is-loading {
+  cursor: progress;
+}
+.projects-page .project-grid[aria-busy="true"] {
+  cursor: progress;
+}
+.project-filter-status { margin: 0; }
+.project-filter-status:not(:empty) {
+  position: fixed;
+  z-index: 120;
+  bottom: 20px;
+  left: 50%;
+  width: max-content;
+  max-width: calc(100% - 40px);
+  transform: translateX(-50%);
+  padding: 10px 16px;
+  background: #242424;
+  color: #fff;
+  font-size: 13px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .projects-page .project-overlay { transition: none; }
+}

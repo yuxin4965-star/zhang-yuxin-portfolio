@@ -206,14 +206,7 @@
   });
 
   // Same calm blur / opacity timing as the archived portfolio cover.
-  document.querySelectorAll('.project-switch,.back-link').forEach(link => {
-    link.addEventListener('click', event => {
-      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0 || reducedMotion.matches) return;
-      event.preventDefault();
-      document.body.classList.add('is-leaving');
-      setTimeout(() => { window.location.href = link.href; }, 350);
-    });
-  });
+  // Use native navigation so network waits never leave an opaque exit mask on screen.
   desktop.addEventListener('change', initLenis);
   reducedMotion.addEventListener('change', initLenis);
   addEventListener('pagehide', destroyLenis);
