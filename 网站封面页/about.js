@@ -71,9 +71,12 @@
     ];
     const targets = [...new Set(section.querySelectorAll(selectors.join(',')))];
 
-    targets.forEach((target, index) => {
+    let index = 0;
+    targets.forEach((target) => {
       target.classList.add('motion-reveal');
       target.style.setProperty('--motion-delay', `${Math.min(120 + index * 58, 760)}ms`);
+      // Supplemental copy uses the next slot without shifting existing entries.
+      if (!target.hasAttribute('data-motion-extra')) index += 1;
     });
   }
 
