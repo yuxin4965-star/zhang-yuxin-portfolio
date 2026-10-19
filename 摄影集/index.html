@@ -3,15 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Capture the pointer before deferred scripts and photographs are ready.
+      (() => {
+        let point = null;
+        const capture = event => {
+          if (event.pointerType === 'mouse') point = { x: event.clientX, y: event.clientY,
+            width: innerWidth, height: innerHeight, time: Date.now() };
+        };
+        document.addEventListener('pointerover', capture, { capture: true, passive: true });
+        document.addEventListener('pointermove', capture, { capture: true, passive: true });
+        window.__takeGalleryPointer = () => {
+          document.removeEventListener('pointerover', capture, true);
+          document.removeEventListener('pointermove', capture, true);
+          delete window.__takeGalleryPointer;
+          return point;
+        };
+      })();
+    </script>
     <meta name="theme-color" content="#050505" />
     <meta name="description" content="张雨馨的摄影集：旅途、风景与日常影像。" />
     <title>影集 — Zhang Yuxin</title>
     <link rel="preconnect" href="https://media.yuxin4965.xyz" crossorigin />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23050505'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%23ff5b2e'/%3E%3C/svg%3E" />
     <link rel="stylesheet" href="site-shared.css?v=20260928-nav-layout-5" />
-    <link rel="stylesheet" href="photography.css?v=20260930-bugfix-1" />
-    <script defer src="photos.js?v=3"></script>
-    <script defer src="photography.js?v=20260930-bugfix-1"></script>
+    <link rel="stylesheet" href="photography.css?v=20261019-gallery-d075f145244a" />
+    <script defer src="photos.js?v=20261019-gallery-d075f145244a"></script>
+    <script defer src="photography.js?v=20261019-gallery-d075f145244a"></script>
   </head>
   <body class="photography-page">
     <a class="skip-link" href="#photographs">跳到照片</a>
@@ -38,9 +56,6 @@
       <span>ZHANG YUXIN © 2026</span>
       <span>PHOTOGRAPHY COLLECTION</span>
     </footer>
-    <div class="photo-loader" role="status" aria-label="正在准备摄影集">
-      <span class="photo-loader__track"><span class="photo-loader__progress"></span></span>
-    </div>
     <noscript><p class="no-script">请启用 JavaScript 以浏览交互摄影集。<a href="../网站封面页/index.html">返回首页</a></p></noscript>
   </body>
 </html>
